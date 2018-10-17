@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class WelcomeController {
+    private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 
 	// inject via application.properties
 	@Value("${welcome.message:test}")
@@ -34,10 +37,10 @@ public class WelcomeController {
 	@RequestMapping("/findByCityName")
 	@ResponseBody
 	public ArrayList findByCityName(@RequestParam("cityName") String cityName,HttpServletResponse httpServletResponse) {
-		//System.out.println("$$$$$$$$$$---cityName--$$$$$$$$$$"+cityName);
+		logger.debug("$$$$$$$$$$---cityName--$$$$$$$$$$"+cityName);
         RestTemplate restTemplate = new RestTemplate();
-        HashMap quote = restTemplate.getForObject("URL"+cityName+".json", HashMap.class);
-       // System.out.println("---quote---"+quote.get("response"));
+        HashMap quote = restTemplate.getForObject("http://api.wunderground.com/weather/api/0febb2c6dfdd1e46/conditions/q/"+cityName+".json", HashMap.class);
+        logger.debug("---quote---"+quote.get("response"));
         HashMap response = new HashMap();
         response=(HashMap)quote.get("response");
        // System.out.println("---results---"+response.get("results"));
