@@ -39,7 +39,7 @@ public class WelcomeController {
 	public ArrayList findByCityName(@RequestParam("cityName") String cityName,HttpServletResponse httpServletResponse) {
 		logger.debug("$$$$$$$$$$---cityName--$$$$$$$$$$"+cityName);
         RestTemplate restTemplate = new RestTemplate();
-        HashMap quote = restTemplate.getForObject("http://api.wunderground.com/weather/api/0febb2c6dfdd1e46/conditions/q/"+cityName+".json", HashMap.class);
+        HashMap quote = restTemplate.getForObject(""+cityName+".json", HashMap.class);
         logger.debug("---quote---"+quote.get("response"));
         HashMap response = new HashMap();
         response=(HashMap)quote.get("response");
